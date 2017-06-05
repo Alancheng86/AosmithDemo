@@ -44,9 +44,9 @@ public class MainActivity extends Activity {
                         num = 0;
                         mview.setBackgroundColor(0xffff00ff);
                     }
-//                    if(num==1){
-//                        mview.setBackgroundColor(0xff00ff00);
-//                    }
+                    if(num==1){
+                          mview.setBackgroundColor(0xff00ff00);
+                    }
 //                    if(num==2){
 //                        mview.setBackgroundColor(0xff0000ff);
 //                    }

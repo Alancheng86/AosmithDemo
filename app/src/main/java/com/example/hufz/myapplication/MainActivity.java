@@ -21,6 +21,20 @@ public class MainActivity extends Activity {
     int SIGN = 16;
     // 照片索引
     int num = 0;
+
+
+
+
+//    private void getDisplayInfomation() {
+//        Point point = new Point();
+//        getWindowManager().getDefaultDisplay().getSize(point);
+//        Log.d(TAG,"the screen size is "+point.toString());
+//    }
+
+
+
+
+
     View mview;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,9 +58,15 @@ public class MainActivity extends Activity {
                         num = 0;
                         mview.setBackgroundColor(0xffff00ff);
                     }
-                    if(num==1){
-                          mview.setBackgroundColor(0xff00ff00);
-                    }
+//                    if(num==1){
+//                          mview.setBackgroundColor(0xff00ff00);
+//                    }
+
+
+                    /////get SD card information    load:    /mnt/extsd0     KBMP    LOSI.DIR     display_param.cfg
+
+
+
 //                    if(num==2){
 //                        mview.setBackgroundColor(0xff0000ff);
 //                    }
@@ -62,6 +82,9 @@ public class MainActivity extends Activity {
                 msg.what = SIGN;
                 handler.sendMessage(msg);
             }
-        }, 2000, 1500);
+        }, 3000, 3000);
     }
+
+
+
 }

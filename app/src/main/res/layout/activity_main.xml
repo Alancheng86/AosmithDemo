@@ -17,7 +17,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/a2"
+        app:srcCompat="@drawable/a4"
         tools:layout_editor_absoluteX="230dp"
         tools:layout_editor_absoluteY="154dp" />
 

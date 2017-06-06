@@ -53,6 +53,8 @@ public class MainActivity extends Activity {
             // TODO Auto-generated method stub
                 super.handleMessage(msg);
                 if (msg.what == SIGN) {
+
+
                     image.setImageResource(images[num++]);
                     if (num >= images.length) {
                         num = 0;

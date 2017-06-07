@@ -3,14 +3,26 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import static android.content.ContentValues.TAG;
+
 
 public class MainActivity extends Activity {
     // 要切换的照片，放在drawable文件夹下
@@ -23,13 +35,38 @@ public class MainActivity extends Activity {
     int num = 0;
 
 
-
-
-//    private void getDisplayInfomation() {
-//        Point point = new Point();
-//        getWindowManager().getDefaultDisplay().getSize(point);
-//        Log.d(TAG,"the screen size is "+point.toString());
+//    public void getSize(Point outSize) {
+//        synchronized (this) {
+//            updateDisplayInfoLocked();
+//            mDisplayInfo.getAppMetrics(mTempMetrics, mDisplayAdjustments);
+//            outSize.x = mTempMetrics.widthPixels;
+//            outSize.y = mTempMetrics.heightPixels;
+//        }
 //    }
+
+    private void getDisplayInfomation() {
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getSize(point);
+
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.i("Create Android", "Test");
+        Log.d("DEBUG", "Some Text");
+        Log.d("DEBUG", "Some Text");
+        Log.d("DEBUG", "Some Text");
+        Log.d("DEBUG", "Some Text");
+        Log.d("DEBUG", "Some Text");
+        Log.d("DEBUG", "Some Text");
+        Log.d("DEBUG", "Some Text");
+        Log.d("DEBUG", "Some Text");
+        Log.d(TAG,"the screen size is "+point.toString());
+    }
 
 
 
@@ -66,7 +103,6 @@ public class MainActivity extends Activity {
 
 
                     /////get SD card information    load:    /mnt/extsd0     KBMP    LOSI.DIR     display_param.cfg
-
 
 
 //                    if(num==2){

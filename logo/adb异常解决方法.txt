@@ -1,0 +1,21 @@
+
+
+查看ADB占用情况
+
+netstat -aon|findstr "5037"
+
+TCP    127.0.0.1:5037         0.0.0.0:0              LISTENING       18212
+
+tasklist|findstr "18212"
+
+kadb.exe          18212 Console                    1      1,260 K
+
+      大家能够看到是一个叫着kadb.exe的程序在占用我们的adb端口，进入到任务管理器里面，找到它结束掉就行了。
+
+          1.关闭kadb.exe
+
+          2.adb kill-server
+
+          3.adb start-server
+
+          4.重启Eclipse

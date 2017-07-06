@@ -1,0 +1,26 @@
+
+
+
+su
+
+mount -o rw,remount /dev/block/bootdevice/by-name/system /system
+mount -o rw,remount /dev/block/bootdevice/by-name/cust /cust
+rm -f /system/set_immutable.list
+
+（可选，查看指令）mount
+
+cat /storage/emulated/0/oemlogo.mbn > /data/cust/logo/oemlogo.mbn
+load_oemlogo
+
+
+
+六部曲完成logo的替换后reboot即可。。。（oemlogo.mbn为2.64mb的文件，使用软件生成，拷贝到内部存储的位置，以便后续使用。）
+
+
+bug记录：
+1、RB反色。。需调整。
+
+
+
+
+root@hwG621-TL00:/data/cust/logo # load_oemlogo

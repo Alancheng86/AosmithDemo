@@ -1,4 +1,4 @@
-
+ï»¿
 
 
 su
@@ -7,18 +7,18 @@ mount -o rw,remount /dev/block/bootdevice/by-name/system /system
 mount -o rw,remount /dev/block/bootdevice/by-name/cust /cust
 rm -f /system/set_immutable.list
 
-£¨¿ÉÑ¡£¬²é¿´Ö¸Áî£©mount
+ï¼ˆå¯é€‰ï¼ŒæŸ¥çœ‹æŒ‡ä»¤ï¼‰mount
 
 cat /storage/emulated/0/oemlogo.mbn > /data/cust/logo/oemlogo.mbn
 load_oemlogo
 
 
 
-Áù²¿ÇúÍê³ÉlogoµÄÌæ»»ºóreboot¼´¿É¡£¡£¡££¨oemlogo.mbnÎª2.64mbµÄÎÄ¼þ£¬Ê¹ÓÃÈí¼þÉú³É£¬¿½±´µ½ÄÚ²¿´æ´¢µÄÎ»ÖÃ£¬ÒÔ±ãºóÐøÊ¹ÓÃ¡££©
+å…­éƒ¨æ›²å®Œæˆlogoçš„æ›¿æ¢åŽrebootå³å¯ã€‚ã€‚ã€‚ï¼ˆoemlogo.mbnä¸º2.64mbçš„æ–‡ä»¶ï¼Œä½¿ç”¨è½¯ä»¶ç”Ÿæˆï¼Œæ‹·è´åˆ°å†…éƒ¨å­˜å‚¨çš„ä½ç½®ï¼Œä»¥ä¾¿åŽç»­ä½¿ç”¨ã€‚ï¼‰
 
 
-bug¼ÇÂ¼£º
-1¡¢RB·´É«¡£¡£Ðèµ÷Õû¡£
+bugè®°å½•ï¼š
+1ã€RBåè‰²ã€‚ã€‚éœ€è°ƒæ•´ã€‚
 
 
 

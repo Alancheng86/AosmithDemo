@@ -134,12 +134,12 @@ public class VideoViewActivity extends Activity {
 			Toast.makeText(this, "File Not exists", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
+
+		vv_video.seekTo(msec);
+		vv_video.start();
 		Log.i(TAG, "------play----文件存在");
 		vv_video.setVideoPath(file.getAbsolutePath());
 		Log.i(TAG, "------play----已经设定文件地址");
-		vv_video.seekTo(msec);
-		vv_video.start();
 		//vv_video.onTouchEvent()
 		//
 

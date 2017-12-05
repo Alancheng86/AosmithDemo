@@ -27,7 +27,7 @@ import static android.content.ContentValues.TAG;
 public class MainActivity extends Activity {
     // 要切换的照片，放在drawable文件夹下
 //    int[] images = { R.drawable.a2, R.drawable.a3, R.drawable.a4, };
-    int[] images = { R.drawable.a001,R.drawable.a002, R.drawable.a003, R.drawable.a004, R.drawable.a005,R.drawable.a006,R.drawable.a007,R.drawable.a008, R.drawable.a009,  };
+    int[] images = { R.drawable.a001,R.drawable.a002, R.drawable.a003, R.drawable.a004, R.drawable.a005,R.drawable.a006,R.drawable.a007,R.drawable.a008,R.drawable.a010, R.drawable.a009,  };
 
     // Message传递标志
     int SIGN = 16;
@@ -95,7 +95,14 @@ public class MainActivity extends Activity {
                     image.setImageResource(images[num++]);
                     if (num >= images.length) {
                         num = 0;
-                        mview.setBackgroundColor(0xffff00ff);
+
+                       mview.setBackgroundColor(0xffff00ff);
+                    }
+
+                    if(num == 9)
+                    {
+                        num--;
+
                     }
 //                    if(num==1){
 //                          mview.setBackgroundColor(0xff00ff00);

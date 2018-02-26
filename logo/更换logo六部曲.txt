@@ -9,7 +9,19 @@ rm -f /system/set_immutable.list
 
 （可选，查看指令）mount
 
+先去logo文件夹中删除原始文件。 
+chmod 777 /data/cust/logo/oemlogo.mbn
+
+rm -f /data/cust/logo/oemlogo.mbn 
+
+复制使用第三条指令（第一、第二条指令备用）
+第一条：  
 cat /storage/emulated/0/oemlogo.mbn > /data/cust/logo/oemlogo.mbn
+第二条
+cat /storage/emulated/0/Download/oemlogo.mbn > /data/cust/logo/oemlogo.mbn
+第三条  
+cat /storage/emulated/0/Download/oemlogo.raw > /data/cust/logo/oemlogo.mbn
+
 load_oemlogo
 
 
@@ -24,3 +36,14 @@ bug记录：
 
 
 root@hwG621-TL00:/data/cust/logo # load_oemlogo
+
+
+logo制作方法   
+“第一屏制作工具.zip”解压（我是在手机上解压的）到一个文件夹中，
+假设这个文件夹叫“a”。将刚刚的图片复制到a中，重命名为1.jpg，
+双击“运行我制作第一屏.bat”，
+一会儿将会看到生成了两个文件，一个叫oemlogo.mbn，一个叫oemlogo.raw，
+选择这两个文件中大小为2.64mb的（2.64m的应该是oemlogo.raw，一定要确定是2.64m，不是其它大小），
+重命名为oemlogo.mbn（看不到是.mbn还是.raw的机油可以把这两个文件都复制到手机上再重命名），
+再将这重命名后得到的oemlogo.mbn文件复制到手机上
+

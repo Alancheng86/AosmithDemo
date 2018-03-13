@@ -38,14 +38,49 @@ https://tieba.baidu.com/p/4896597612
 
 多次试验后，在supersume pro界面上跑了几次后，root看似成功了，但是指令只能运行一次，修改了system文件夹属性，成功，再想进行删除apk，却又失败了，报错是read only file system；只能暂时先搁置删除HwLaunch6.apk（系统桌面），  下一步使用root权限进行修改开关机动画。。。
 
+先将相应的文件拷贝到手机的Download文件夹下。
+1、bootanimation.zip---->来自E:\Git_project_all\aosmith_a\logo\bootanimation\bootanimation.zip
+2、giantplus_ao_demo.apk----->来自E:\Git_project_all\aosmith_a\logo\giantplus_ao_demo.apk
+3、kingroot-4-6-0-multi-android.apk----->来自D:\SOFT\android_root
+4、oemlogo.raw----->来自D:\SOFT\开机logo修改器\C8817DFirstScreen\oemlogo.raw
+5、Super-Sume Pro 9.1.8.apk----->来自D:\SOFT\android_root
+6、放置1.MP4文件到手机根目录下
+
+刷机精灵+kingroot+supersume混合root多次尝试后，root算是完成了，进行下列的更换动作指令。
+
 删除开关机动画操作。（开机，在短暂的root权限下进行操作）   
 开机；    
 迅速连接adb  shell   
-su  
+su  （此处获得root权限即可进行下面的命令）
 先用mount指令查看system以及cust的文件读写属性  
 mount -o rw,remount /dev/block/bootdevice/by-name/cust /cust   
 mount -o rw,remount /dev/block/bootdevice/by-name/system /system    
-rm -f /system/set_immutable.list    
+rm -f /system/set_immutable.list   
+
+cd /data/cust/media/  
+chmod 777 bootanimation.zip  
+chmod 777 shutdownanimation.zip
+rm -f bootanimation.zip  
+rm -f shutdownanimation.zip
+cat /storage/emulated/0/Download/bootanimation.zip > /data/cust/media/bootanimation.zip
+chmod 1247 bootanimation.zip 
+
+cd /data/cust/logo/ 
+chmod 777 /data/cust/logo/oemlogo.mbn
+rm -f /data/cust/logo/oemlogo.mbn
+cat /storage/emulated/0/Download/oemlogo.raw > /data/cust/logo/oemlogo.mbn
+load_oemlogo
+
+reboot
+开机后需要安装apk程序，并进行相关设定；
+按顺序设置。
+1、在  设置  显示 休眠选项中，设置为无操作30分钟后
+2、在  设置 安全  锁屏样式 中设置为不锁屏
+3、通过  设置  选项中  主屏幕 设定为app，达成开机显示app效果。
+4、重启
+
+即可查看效果
+
 进入如下路径找到开机动画  
 /data/cust/media/bootanimation.zip    
 在此路径下找到关机动画   
@@ -87,7 +122,9 @@ chmod 1247 bootanimation.zip
 开机后进入app界面，温度调节旋钮可以随着触摸而改变，在非旋钮区域触摸，向上滑动或者向下滑动可以改变背景色，从右向左滑动可以拉出下一个界面，展示出小视频。
 
 
-未完成选项，未能将系统的桌面app删除，HwLauncher6.apk，暂时方法是，通过  设置  选项中  主屏幕 设定为app，达成开机显示app效果。
+未完成选项，未能将系统的桌面app删除，HwLauncher6.apk，
+
+
 
 备注一下：  
 https://www.cnblogs.com/zl1991/p/6378033.html   

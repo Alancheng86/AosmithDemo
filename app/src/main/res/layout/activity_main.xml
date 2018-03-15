@@ -54,6 +54,17 @@
 
         />
 
+    <ImageView
+        android:id="@+id/image"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        />
+
 </RelativeLayout>
 
     <!--android:background="#ECF4F9"   android:layout_marginTop="20dp"  -->

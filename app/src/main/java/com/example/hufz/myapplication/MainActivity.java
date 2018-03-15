@@ -5,6 +5,8 @@ import java.io.File;
 import android.app.Activity;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.content.Intent;
 import android.view.WindowManager;
@@ -42,6 +45,13 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
     private boolean playState =false;
     private boolean BCChanged=false;
     private ScreenObserver mScreenObserver;
+
+    private ImageView img;
+    //private String[] SD_areas = new String[]{"1.png","2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png"};////可以使用png图片显示，分辨率需对应屏分辨率
+    private String[] SD_areas = new String[]{"1.bmp","2.bmp", "3.bmp", "4.bmp", "5.bmp", "6.bmp", "7.bmp", "8.bmp", "9.bmp", "10.bmp"};/////可以使用bmp图片显示，分辨率需对应屏分辨率
+    int Pic_num=0;
+    private String filepath = Environment.getExternalStorageDirectory().getPath()+"/"+SD_areas[Pic_num];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -53,8 +63,12 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
                 WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+
         //创建手势检测器
         detector = new GestureDetector(this,this);
+
+        Image_show();/////放置在此处是屏蔽掉其余UI的效果。
+        Log.i(TAG, "Bitmap show is on");
 
         button=(Button)findViewById(R.id.button);
         mContentView = findViewById(R.id.fullscreen_content_controls);
@@ -88,6 +102,8 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
                 doSomethingOnScreenOff();
             }
         });
+
+
     }
     private void doSomethingOnScreenOn() {
         Log.i(TAG, "Screen is on");
@@ -144,10 +160,13 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
                 BCChanged=true;
                 Log.i(TAG, "--setBackgroundColor(0xff000000)--");
             }
-            play(0);
+            Pic_num--;
+            if(Pic_num<0){Pic_num = SD_areas.length-1;}
+            Image_show();
+            //play(0);
             //Toast.makeText(this,velocityX+"左滑",Toast.LENGTH_SHORT).show();
         }else if(endX-beginX>minMove&&Math.abs(velocityX)>minVelocity){   //右滑
-           stop();
+           //stop();
             tempControl.setVisibility(View.VISIBLE);
             Button.setVisibility(View.VISIBLE);
             videoView.setVisibility(View.INVISIBLE);
@@ -155,10 +174,15 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             //button.setVisibility(View.VISIBLE);
             playState=false;
             Log.i(TAG, "----右滑，Play stoped,playstate=false");
+
             if(BCChanged) {mContentView.setBackgroundColor(0xECF4F9);
                 BCChanged=!BCChanged;
                 Log.i(TAG, "BCChanged,---:setBackgroundColor(0xECF4F9)---");
             }
+            Pic_num++;
+            if(Pic_num > SD_areas.length-1){Pic_num=0;}
+            Image_show();
+            Log.i(TAG, "----右滑，image  show test");
             //Toast.makeText(this,velocityX+"右滑",Toast.LENGTH_SHORT).show();
         }else if(beginY-endY>minMove&&Math.abs(velocityY)>minVelocity){   //上滑
            // Toast.makeText(this,velocityX+"上滑",Toast.LENGTH_SHORT).show();
@@ -197,6 +221,9 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
 
         return false;
     }
+
+
+
     //----------------------------------------------------------------------
     private void play(int msec) {
        // Log.i(TAG, "------------------play-------------------------------");
@@ -270,6 +297,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             }
         });
     }
+
 	/*@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -331,6 +359,138 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             startActivity(intent);
         }
     }
+/*
+    // 用于遍历sdcard卡上所有文件的类
+    public static void DirAll(File dirFile) throws Exception {
+        if (dirFile.exists()) {
+            File files[] = dirFile.listFiles();
+            for (File file : files) {
+                String fileName = file.getName();
+                String filePath = file.getPath();
+                Message msg = new Message();
+                msg.obj = "正在读取：" + filePath;
+                handler.sendMessage(msg);
+                if (file.isDirectory()) {
+
+
+// 除sdcard上Android这个文件夹以外。
+                    if (!fileName.endsWith("Android")) {
+// 如果遇到文件夹则递归调用。
+                        DirAll(file);
+                    }
+                } else {
+// 如果是图片文件压入数组
+
+
+                    if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")
+                            || fileName.endsWith(".bmp")
+                            || fileName.endsWith(".gif")
+                            || fileName.endsWith(".png")) {
+// 如果遇到文件则放入数组
+                        if (dirFile.getPath().endsWith(File.separator)) {
+                            dirAllStrArr
+                                    .add(dirFile.getPath() + file.getName());
+                        } else {
+                            dirAllStrArr.add(dirFile.getPath() + File.separator
+                                    + file.getName());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // 图片加载的缓存工具类，安卓自带的方法
+    public static BitmapFactory.Options getHeapOpts(File file) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+// 数字越大读出的图片占用的heap必须越小，不然总是溢出
+        if (file.length() < 20480) { // 0-20k
+            opts.inSampleSize = 1;// 这里意为缩放的大小 ，数字越多缩放得越厉害
+        } else if (file.length() < 51200) { // 20-50k
+            opts.inSampleSize = 2;
+        } else if (file.length() < 307200) { // 50-300k
+            opts.inSampleSize = 4;
+        } else if (file.length() < 819200) { // 300-800k
+            opts.inSampleSize = 6;
+        } else if (file.length() < 1048576) { // 800-1024k
+            opts.inSampleSize = 8;
+        } else {
+            opts.inSampleSize = 10;
+        }
+        return opts;
+    }
+*/
+ /*   @Override
+    public View getView(int position, View convertView, ViewGroup arg2) {
+        ImageView imageView1;
+        if (convertView == null) {
+            imageView1 = new ImageView(MainActivity.this);
+            imageView1.setAdjustViewBounds(true);// 自动缩放为宽高比
+            imageView1.setScaleType(ScaleType.CENTER_INSIDE);// 设置图片保持宽高比显示
+            imageView1.setPadding(5, 5, 5, 5);
+        } else {
+            imageView1 = (ImageView) convertView;
+        }
+        String filePath = dirAllStrArr.get(position);
+        File file = new File(filePath);
+        Bitmap bm = BitmapFactory.decodeFile(filePath,
+                getHeapOpts(file));
+        imageView1.setImageBitmap(bm);
+
+
+        return imageView1;
+    }
+*/
+    private void Image_show(){
+
+        /////SD 图片读取测试
+        //setContentView(R.layout.activity_main);
+        img = (ImageView) findViewById(R.id.image);
+        /*Pic_num++;
+        if(Pic_num>=3){Pic_num=0;}*/
+
+
+        filepath = Environment.getExternalStorageDirectory().getPath()+"/"+SD_areas[Pic_num];
+        File file = new File(filepath);
+        if (file.exists()) {
+            //Log.i(TAG, "Bitmap bm = BitmapFactory.decodeFile(filepath); is on");
+            Bitmap bm = BitmapFactory.decodeFile(filepath);
+            //将图片显示到ImageView中
+            img.setImageBitmap(bm);
+        };
+
+        /*    Intent intent;
+            intent=new Intent(MainActivity.this, ImageViewActivity.class);
+            startActivity(intent);
+*/
+        /** Called when the activity is first created. */
+ /*       private ImageView img;
+
+        private final String TAG = "main";
+
+        //SD图片路径
+        //private String filepath = "/sdcard/1.png";
+        private String filepath = Environment.getExternalStorageDirectory().getPath()+"/"+"1.jpg";
+
+        //Log.i(TAG, "------------------play-------------------------------");
+        //Log.i(TAG, "playPath:"+filepath);
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            img = (ImageView) findViewById(R.id.image);
+            File file = new File(filepath);
+            if (file.exists()) {
+                Bitmap bm = BitmapFactory.decodeFile(filepath);
+                //将图片显示到ImageView中
+                img.setImageBitmap(bm);
+            }
+        }
+*/    }
+
+
+
 
     //@Override
    /* public void onClick(View v) {
@@ -398,4 +558,3 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
 
 
 }
-

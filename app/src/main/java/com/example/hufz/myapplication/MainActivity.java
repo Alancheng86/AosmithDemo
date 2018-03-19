@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.content.Intent;
 import android.view.WindowManager;
@@ -37,9 +38,21 @@ import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 
+/////for canvas
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.view.View;
 
-
-public  class MainActivity extends Activity implements  android.view.GestureDetector.OnGestureListener {
+public  class MainActivity extends Activity // implements  android.view.GestureDetector.OnGestureListener
+{
     private TextView textView1;
     private GridView gridView1;
     private static Handler handler;
@@ -69,10 +82,10 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
     //private String[] SD_areas = new String[]{"1.png","2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png"};////可以使用png图片显示，分辨率需对应屏分辨率
     private String[] SD_areas = new String[]{"1.bmp", "2.bmp", "3.bmp", "4.bmp", "5.bmp", "6.bmp", "7.bmp", "8.bmp", "9.bmp", "10.bmp"};/////可以使用bmp图片显示，分辨率需对应屏分辨率
     int Pic_num = 0;
-    private String filepath = Environment.getExternalStorageDirectory().getPath() + "/" + SD_areas[Pic_num];
+    //private String filepath = Environment.getExternalStorageDirectory().getPath() + "/" + SD_areas[Pic_num];
 
 
-
+/*
     // 用于遍历sdcard卡上所有文件的类
     public static void DirAll(File dirFile) throws Exception {
         if (dirFile.exists()) {
@@ -134,6 +147,17 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
         return opts;
     }
 
+*/
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        LinearLayout layout=(LinearLayout) findViewById(R.id.work_control);
+        layout.addView(new DrawView(this));
+    }
+
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -185,7 +209,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             }
         });
 */
-    /* 测试新函数开始*/
+    /* 测试新函数开始*//*
         Thread readSdcard = new Thread() {
             private String sdpath = Environment.getExternalStorageDirectory()
                     .getAbsolutePath();// 获取sdcard的根路径
@@ -209,7 +233,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
         readSdcard.start();
 
 
-/* 遍历sdcard旗下的所有文件夹结束 */
+/* 遍历sdcard旗下的所有文件夹结束 */  /*
 // 不停在接受定时器的消息，根据消息的参数，进行处理
 
 
@@ -284,20 +308,21 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-        });*/
+        });*/ /*
 
     }
-
+*/
+/*
     private void doSomethingOnScreenOn() {
         Log.i(TAG, "Screen is on");
         if (playState) {
-            play(0);
+           // play(0);
         }
     }
 
     private void doSomethingOnScreenOff() {
         Log.i(TAG, "Screen is off");
-        stop();
+        //stop();
     }
 
     @Override
@@ -320,7 +345,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
 
     /**
      * 滑屏监测
-     */
+     */  /*
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         float minMove = 120;         //最小滑动距离
@@ -410,318 +435,15 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
         return false;
     }
 
+*/
 
-    //----------------------------------------------------------------------
-    private void play(int msec) {
-        // Log.i(TAG, "------------------play-------------------------------");
-        String path = Environment.getExternalStorageDirectory().getPath() + "/" + "1.mp4";
-        //  et_path.getText().toString().trim();
-        //String path = "/mnt/sdcard/1.mp4";  //  et_path.getText().toString().trim();
-        Log.i(TAG, "playPath:" + path);
-        File file = new File(path);
-        if (!file.exists()) {
-            Toast.makeText(this, "File Not exists", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        // Log.i(TAG, "------play----文件存在");
-        videoView.setVideoPath(file.getAbsolutePath());
-        //Log.i(TAG, "------play----已经设定文件地址");
-        videoView.seekTo(msec);
-        videoView.start();
-        isPlaying = true;
-        playState = true;
-        Log.i(TAG, "------------------play-------------------------------");
-        //vv_video.onTouchEvent()
-        //
 
-        //
-        //seekBar.setMax(vv_video.getDuration());
 
-        //
-		/*new Thread() {
-
-			@Override
-			public void run() {
-				try {
-					isPlaying = true;
-					while (isPlaying) {
-
-						int current = vv_video.getCurrentPosition();
-						//seekBar.setProgress(current);
-
-						sleep(500);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();*/
-        //
-        // btn_play.setEnabled(false);
-
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            //监控播放结束，播放结束后自动重播
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                //
-                //btn_play.setEnabled(true);
-                // stop();
-                //videoView.start();
-                play(0);
-
-            }
-        });
-
-        videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                //
-                play(0);
-                isPlaying = false;
-                return false;
-            }
-        });
-    }
-
-	/*@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		if(vv_video.isPlaying()){
-			vv_video.stopPlayback();
-		}
-		//vv_video.release();
-		//Activity销毁时停止播放，释放资源。不做这个操作，即使退出还是能听到视频播放的声音
-	}*/
-
-    /*protected void replay() {
-        if (videoView != null && videoView.isPlaying()) {
-            videoView.seekTo(3000);
-            Toast.makeText(this, "循环", Toast.LENGTH_LONG).show();
-            //btn_pause.setText("||");
-            return;
-        }
-        isPlaying = false;
-        play(0);
-
-    }*/
-
-    /**
-     * ��ͣ�����
-     */
-	/*protected void pause() {
-		if (btn_pause.getText().toString().trim().equals("����")) {
-			btn_pause.setText("��ͣ");
-			vv_video.start();
-			Toast.makeText(this, "��������", 0).show();
-			return;
-		}
-		if (vv_video != null && vv_video.isPlaying()) {
-			vv_video.pause();
-			btn_pause.setText("����");
-			Toast.makeText(this, "��ͣ����", 0).show();
-		}
-	}*/
-
-	/*
-	 * ֹͣ����
-	 */
-    private void stop() {
-        if (videoView != null && videoView.isPlaying()) {
-            videoView.stopPlayback();
-            videoView.setEnabled(true);
-            isPlaying = false;
-            // playState=false;
-            // Log.i(TAG, "----------------Stop--play---Playstate=:"+playState);
-        }
-    }
 
     //---------------------------------------------------------------------------------------------
-    private class but_videoplay implements OnClickListener {
-        //通过按钮切换到VideoViewActivity
-        public void onClick(View v) {
-            Intent intent;
-            intent = new Intent(MainActivity.this, VideoViewActivity.class);
-            startActivity(intent);
-        }
-    }
-
-/*
-    // 用于遍历sdcard卡上所有文件的类
-    public static void DirAll(File dirFile) throws Exception {
-        if (dirFile.exists()) {
-            File files[] = dirFile.listFiles();
-            for (File file : files) {
-                String fileName = file.getName();
-                String filePath = file.getPath();
-                Message msg = new Message();
-                msg.obj = "正在读取：" + filePath;
-                handler.sendMessage(msg);
-                if (file.isDirectory()) {
 
 
-// 除sdcard上Android这个文件夹以外。
-                    if (!fileName.endsWith("Android")) {
-// 如果遇到文件夹则递归调用。
-                        DirAll(file);
-                    }
-                } else {
-// 如果是图片文件压入数组
-
-
-                    if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")
-                            || fileName.endsWith(".bmp")
-                            || fileName.endsWith(".gif")
-                            || fileName.endsWith(".png")) {
-// 如果遇到文件则放入数组
-                        if (dirFile.getPath().endsWith(File.separator)) {
-                            dirAllStrArr
-                                    .add(dirFile.getPath() + file.getName());
-                        } else {
-                            dirAllStrArr.add(dirFile.getPath() + File.separator
-                                    + file.getName());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    // 图片加载的缓存工具类，安卓自带的方法
-    public static BitmapFactory.Options getHeapOpts(File file) {
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-// 数字越大读出的图片占用的heap必须越小，不然总是溢出
-        if (file.length() < 20480) { // 0-20k
-            opts.inSampleSize = 1;// 这里意为缩放的大小 ，数字越多缩放得越厉害
-        } else if (file.length() < 51200) { // 20-50k
-            opts.inSampleSize = 2;
-        } else if (file.length() < 307200) { // 50-300k
-            opts.inSampleSize = 4;
-        } else if (file.length() < 819200) { // 300-800k
-            opts.inSampleSize = 6;
-        } else if (file.length() < 1048576) { // 800-1024k
-            opts.inSampleSize = 8;
-        } else {
-            opts.inSampleSize = 10;
-        }
-        return opts;
-    }
-    */
-/*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-       // textView1 = (TextView) findViewById(R.id.textView1);
-       // gridView1 = (GridView) findViewById(R.id.gridView1);
-        gridView1.setVisibility(View.INVISIBLE);
-/* 遍历sdcard旗下的所有文件夹开始 */
-
-/*
-        Thread readSdcard = new Thread() {
-            private String sdpath = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath();// 获取sdcard的根路径
-            private File dirFile = new File(sdpath);
-
-
-            public void run() {
-                try {
-                    DirAll(dirFile);
-                    Message msg = new Message();
-                    msg.obj = "0";
-                    handler.sendMessage(msg);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            ;
-        };
-        textView1.setVisibility(View.VISIBLE);
-        readSdcard.start();
-
-
-/* 遍历sdcard旗下的所有文件夹结束 */
-// 不停在接受定时器的消息，根据消息的参数，进行处理
-
-/*
-        handler = new Handler(new Handler.Callback() {// 这样写，就不弹出什么泄漏的警告了
-            @Override
-            public boolean handleMessage(Message msg) {
-                textView1.setText(msg.obj + "");
-                if (msg.obj.equals("0")) {
-                    textView1.setVisibility(View.GONE);
-                    gridView1.setVisibility(View.VISIBLE);
-                }
-                return false;
-            }
-        });
-
-
-        BaseAdapter baseAdapter = new BaseAdapter() {
-
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup arg2) {
-                ImageView imageView1;
-                if (convertView == null) {
-                    imageView1 = new ImageView(MainActivity.this);
-                    imageView1.setAdjustViewBounds(true);// 自动缩放为宽高比
-                    imageView1.setScaleType(ScaleType.CENTER_INSIDE);// 设置图片保持宽高比显示
-                    imageView1.setPadding(5, 5, 5, 5);
-                } else {
-                    imageView1 = (ImageView) convertView;
-                }
-                String filePath = dirAllStrArr.get(position);
-                File file = new File(filePath);
-                Bitmap bm = BitmapFactory.decodeFile(filePath,
-                        getHeapOpts(file));
-                imageView1.setImageBitmap(bm);
-
-
-                return imageView1;
-            }
-
-
-            // 获取当前选项
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-
-            @Override
-            public Object getItem(int position) {
-                return position;
-            }
-
-
-            // 获取数量
-            @Override
-            public int getCount() {
-                return dirAllStrArr.size();
-            }
-
-        };
-        gridView1.setAdapter(baseAdapter);// 把适配器与网格视图链接起来
-      /*  gridView1.setOnItemClickListener(new OnItemClickListener() {// 点击网格组件的任意一张图片时候的事件
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position,// position为点击的id
-                                    long arg3) {
-                Intent intent = new Intent(MainActivity.this,
-                        ViewActivity.class);// 激活ViewActivity
-                Bundle bundle = new Bundle();
-                bundle.putString("imgPath", dirAllStrArr.get(position));// 传递点击的图片的id到ViewActivity
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });*/ /*
-    }
-*/
     // 创建menu的方法，没有该方法，不会在右上角设置菜单。
 
 
@@ -733,13 +455,12 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
 
 
 
-    private void Image_show(){
+  /*  private void Image_show(){
 
         /////SD 图片读取测试
         //setContentView(R.layout.activity_main);
         img = (ImageView) findViewById(R.id.image);
-        /*Pic_num++;
-        if(Pic_num>=3){Pic_num=0;}*/
+
 
 
         filepath = Environment.getExternalStorageDirectory().getPath()+"/"+SD_areas[Pic_num];
@@ -750,59 +471,12 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             //将图片显示到ImageView中
             img.setImageBitmap(bm);
         };
-
-        /*    Intent intent;
-            intent=new Intent(MainActivity.this, ImageViewActivity.class);
-            startActivity(intent);
+   }
 */
-        /** Called when the activity is first created. */
- /*       private ImageView img;
-
-        private final String TAG = "main";
-
-        //SD图片路径
-        //private String filepath = "/sdcard/1.png";
-        private String filepath = Environment.getExternalStorageDirectory().getPath()+"/"+"1.jpg";
-
-        //Log.i(TAG, "------------------play-------------------------------");
-        //Log.i(TAG, "playPath:"+filepath);
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            img = (ImageView) findViewById(R.id.image);
-            File file = new File(filepath);
-            if (file.exists()) {
-                Bitmap bm = BitmapFactory.decodeFile(filepath);
-                //将图片显示到ImageView中
-                img.setImageBitmap(bm);
-            }
-        }
-*/    }
 
 
-
-
-    //@Override
-   /* public void onClick(View v) {
-        //通过按钮切换到VideoViewActivity
-        Intent intent = null;
-        switch (v.getId()) {
-            case R.id.button_video:
-                intent=new Intent(MainActivity.this, VideoViewActivity.class);
-                startActivity(intent);
-                break;
-		*//*case R.id.btn_controller:
-			intent=new Intent(MainActivity.this, ControllerActivity.class);
-			startActivity(intent);
-			break;*//*
-            default:
-                break;
-        }
-
-    }*/
     //--------------------------------------------------------------------------------
-
+/*
     public void SetBc (View vt){
        //改变背景色
        if(bcf) {mContentView.setBackgroundColor(0xff000000);
@@ -845,7 +519,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             ad.show();
         }
     }
-
+*/
 
 
 }

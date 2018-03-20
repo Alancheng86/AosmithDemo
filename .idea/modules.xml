@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AosmithDemo.iml" filepath="$PROJECT_DIR$/AosmithDemo.iml" />
+      <module fileurl="file://E:\Git_project_all\aosmith_a\AosmithDemo.iml" filepath="E:\Git_project_all\aosmith_a\AosmithDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/aosmith_a.iml" filepath="$PROJECT_DIR$/aosmith_a.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

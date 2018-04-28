@@ -1,6 +1,8 @@
 package com.example.hufz.myapplication;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 
@@ -62,35 +64,49 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
                 WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
+        Image_show();/////放置在此处是屏蔽掉其余UI的效果。
 
         //创建手势检测器
         detector = new GestureDetector(this,this);
 
-        Image_show();/////放置在此处是屏蔽掉其余UI的效果。
-        Log.i(TAG, "Bitmap show is on");
 
-        button=(Button)findViewById(R.id.button);
-        mContentView = findViewById(R.id.fullscreen_content_controls);
-        tempControl = (TempControlView) findViewById(R.id.temp_control);
-        tempControl.setTemp(25, 85, 25);
+
+
+   /* //    button=(Button)findViewById(R.id.button);
+    //    mContentView = findViewById(R.id.fullscreen_content_controls);
+    //    tempControl = (TempControlView) findViewById(R.id.temp_control);
+    //    tempControl.setTemp(25, 85, 25);
         tempControl.setOnTempChangeListener(new TempControlView.OnTempChangeListener() {
             @Override
             public void change(int temp) {
               //  Toast.makeText(MainActivity.this, temp + "°", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         videoView=(VideoView)findViewById(R.id.videoView) ;
-        Button=(Button)findViewById(R.id.Button);
-        Button_video=(Button)findViewById(R.id.button_video) ;
+        //Button=(Button)findViewById(R.id.Button);
+        //Button_video=(Button)findViewById(R.id.button_video) ;
        // actionBar=getActionBar();
         //actionBar.hide();
-        Button_video.setOnClickListener(new but_videoplay());
-        Button.setOnClickListener(new CheckBoxClickListener());
+       // Button_video.setOnClickListener(new but_videoplay());
+        //playState = true;
+        //doSomethingOnScreenOn();
+        //Button.setOnClickListener(new CheckBoxClickListener());
         //---屏幕监听，-关闭屏幕后，停止视频播放---------------------------------------------------
+        for(Pic_num=0;Pic_num<2;Pic_num++)
+        {
+            Image_show();/////放置在此处是屏蔽掉其余UI的效果。
+            Log.i(TAG, "Bitmap show is on");
+
+
+            //Timer timer = new Timer();
+            //timer.schedule(task, 3000);//3秒后执行TimeTask的run方法
+        }
+
         /*通过BroadcastReceiver接收广播Intent.ACTION_SCREEN_ON和Intent.ACTION_SCREEN_OFF可以判断屏
         幕状态是否锁屏，但是只有屏幕状态发生改变时才会发出广播；*/
         mScreenObserver = new ScreenObserver(this);
+        playState=true;
+        play(0);
         mScreenObserver.requestScreenStateUpdate(new ScreenObserver.ScreenStateListener() {
             @Override
             public void onScreenOn() {
@@ -149,11 +165,11 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
         float endY = e2.getY();
 
         if(beginX-endX>minMove&&Math.abs(velocityX)>minVelocity){   //左滑
-            tempControl.setVisibility(View.INVISIBLE);
-            Button.setVisibility(View.INVISIBLE);
-            videoView.setVisibility(View.VISIBLE);
+            //tempControl.setVisibility(View.INVISIBLE);
+            //Button.setVisibility(View.INVISIBLE);
+            //videoView.setVisibility(View.VISIBLE);
             //Button_video.setVisibility(View.INVISIBLE);
-            button.setVisibility(View.INVISIBLE);
+            //button.setVisibility(View.INVISIBLE);
             playState=true;
             if(bcf) {mContentView.setBackgroundColor(0xff000000);
                 //bcf=!bcf;
@@ -162,14 +178,14 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             }
             Pic_num--;
             if(Pic_num<0){Pic_num = SD_areas.length-1;}
-            Image_show();
-            //play(0);
+            //Image_show();
+            play(0);
             //Toast.makeText(this,velocityX+"左滑",Toast.LENGTH_SHORT).show();
         }else if(endX-beginX>minMove&&Math.abs(velocityX)>minVelocity){   //右滑
            //stop();
-            tempControl.setVisibility(View.VISIBLE);
-            Button.setVisibility(View.VISIBLE);
-            videoView.setVisibility(View.INVISIBLE);
+            //tempControl.setVisibility(View.VISIBLE);
+            //Button.setVisibility(View.VISIBLE);
+            //videoView.setVisibility(View.INVISIBLE);
            // Button_video.setVisibility(View.VISIBLE);
             //button.setVisibility(View.VISIBLE);
             playState=false;
@@ -181,7 +197,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
             }
             Pic_num++;
             if(Pic_num > SD_areas.length-1){Pic_num=0;}
-            Image_show();
+            //Image_show();
             Log.i(TAG, "----右滑，image  show test");
             //Toast.makeText(this,velocityX+"右滑",Toast.LENGTH_SHORT).show();
         }else if(beginY-endY>minMove&&Math.abs(velocityY)>minVelocity){   //上滑
@@ -191,6 +207,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
            // Toast.makeText(this,velocityX+"下滑",Toast.LENGTH_SHORT).show();
             SetBc(mContentView);
         }
+
 
         return false;
     }
@@ -230,6 +247,7 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
         String path = Environment.getExternalStorageDirectory().getPath()+"/"+"1.mp4";
         //  et_path.getText().toString().trim();
         //String path = "/mnt/sdcard/1.mp4";  //  et_path.getText().toString().trim();
+        path = "/mnt/sdcard/1.mp4";
         Log.i(TAG, "playPath:"+path);
         File file = new File(path);
         if (!file.exists()) {
@@ -490,7 +508,16 @@ public  class MainActivity extends Activity implements  android.view.GestureDete
 */    }
 
 
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            /**
+             *要执行的操作
+             */
+            Pic_num++;
 
+        }
+    };
 
     //@Override
    /* public void onClick(View v) {
